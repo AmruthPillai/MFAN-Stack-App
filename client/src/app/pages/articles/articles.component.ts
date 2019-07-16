@@ -19,7 +19,6 @@ export class ArticlesComponent implements OnInit {
     this.articleService.getArticles()
       .subscribe((res: any) => {
         this.data = res;
-        console.log(this.data);
         this.isLoadingResults = false;
       }, err => {
         console.log(err);

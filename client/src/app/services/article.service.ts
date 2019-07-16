@@ -16,7 +16,7 @@ export class ArticleService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error);
+      console.error(operation, error);
       return of(result as T);
     };
   }
@@ -24,7 +24,6 @@ export class ArticleService {
   getArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(apiUrl)
       .pipe(
-        tap(article => console.log('fetched articles')),
         catchError(this.handleError('getArticles', []))
       );
   }
@@ -32,14 +31,12 @@ export class ArticleService {
   getArticle(id: number): Observable<Article> {
     const url = `${apiUrl}/${id}`;
     return this.http.get<Article>(url).pipe(
-      tap(_ => console.log(`fetched article id=${id}`)),
       catchError(this.handleError<Article>(`getArticle id=${id}`))
     );
   }
 
   addArticle(article: Article): Observable<Article> {
     return this.http.post<Article>(apiUrl, article, httpOptions).pipe(
-      tap((art: Article) => console.log(`added article w/ id=${art._id}`)),
       catchError(this.handleError<Article>('addArticle'))
     );
   }
@@ -47,7 +44,6 @@ export class ArticleService {
   updateArticle(id: any, article: Article): Observable<any> {
     const url = `${apiUrl}/${id}`;
     return this.http.put(url, article, httpOptions).pipe(
-      tap(_ => console.log(`updated article id=${id}`)),
       catchError(this.handleError<any>('updateArticle'))
     );
   }
@@ -55,7 +51,6 @@ export class ArticleService {
   deleteArticle(id: any): Observable<Article> {
     const url = `${apiUrl}/${id}`;
     return this.http.delete<Article>(url, httpOptions).pipe(
-      tap(_ => console.log(`deleted article id=${id}`)),
       catchError(this.handleError<Article>('deleteArticle'))
     );
   }

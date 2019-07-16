@@ -11,6 +11,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  app.enableCors();
   app.setGlobalPrefix('/api');
   await app.listen(3000);
 }
